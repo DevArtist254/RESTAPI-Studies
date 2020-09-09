@@ -64,9 +64,13 @@ app.put("/articles/:articleTitle", (req, res) => {
   //this will cause total overwrite of the document
 
   Article.update(
+    //What we are searching for
     {title: req.params.articleTitle},
+    //the actual update
     {title: req.body.title, content: req.body.content},
+    //property to all overwrite
     {overwrite: true},
+    //returned results
     (err, changedDoc) => {
       changedDoc ? res.send(changedDoc) : res.send(err)
     }
