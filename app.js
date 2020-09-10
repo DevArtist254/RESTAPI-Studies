@@ -49,6 +49,8 @@ app.post("/articles", (req, res) => {
 })
 
 app.delete("/articles", (req, res) => {
+  //deletes all documents
+
   Article.deleteMany({}, (err) => {
     !err ? res.send("the document was succesfully send") : res.send(err)
   })
@@ -75,6 +77,28 @@ app.put("/articles/:articleTitle", (req, res) => {
       changedDoc ? res.send(changedDoc) : res.send(err)
     }
   )
+})
+
+app.patch("/articles/:articleTitle", (req, res) => {
+  //this will cause a specific update
+
+  Article.update(
+    {title: req.params.articleTitle},
+    //the specific update that the body provides
+    {$set: req.body},
+    //returned results
+    (err, changedDoc) => {
+      changedDoc ? res.send(changedDoc) : res.send(err)
+    }
+  )
+})
+
+app.delete("/articles/:articleTitle", (req, res) => {
+  // will delete a specfic item
+
+  Article.deleteOne({title: req.params.articleTitle}, (err) => {
+    !err ? res.send("the document was succesfully send") : res.send(err)
+  })
 })
 
 app.listen(PORT, () => {
